@@ -18,20 +18,23 @@
 {
     <p>Loading application details...</p>
 }
-else if (!string.IsNullOrEmpty(errorMessage))
+else
 {
-    <div class="alert alert-danger">
-        @errorMessage
-    </div>
-}
+    if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger">
+            @errorMessage
+        </div>
+    }
 
-@if (!isLoading && application != null)
-{
-    <StudentApplicationForm
-        Application="application"
-        ButtonText="Update Application"
-        IsSubmitting="isSubmitting"
-        OnSubmit="UpdateApplication" />
+    if (application != null)
+    {
+        <StudentApplicationForm
+            Application="application"
+            ButtonText="Update Application"
+            IsSubmitting="isSubmitting"
+            OnSubmit="UpdateApplication" />
+    }
 }
 
 @code {
@@ -45,6 +48,7 @@ else if (!string.IsNullOrEmpty(errorMessage))
 
     private string errorMessage = "";
 
+    // GET: Load existing application details
     protected override async Task OnParametersSetAsync()
     {
         isLoading = true;
@@ -61,9 +65,11 @@ else if (!string.IsNullOrEmpty(errorMessage))
                 errorMessage = "Application not found.";
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             errorMessage = "Unable to load application details.";
+
+            Console.WriteLine(ex.ToString());
         }
         finally
         {
@@ -71,6 +77,7 @@ else if (!string.IsNullOrEmpty(errorMessage))
         }
     }
 
+    // PUT: Update existing application
     private async Task UpdateApplication(
         StudentApplication updatedApplication)
     {
@@ -94,9 +101,12 @@ else if (!string.IsNullOrEmpty(errorMessage))
                 errorMessage = "Unable to update application.";
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            errorMessage = "An error occurred while updating the application.";
+            errorMessage = "Unable to update application. Check the Output window.";
+
+            Console.WriteLine("Application update error:");
+            Console.WriteLine(ex.ToString());
         }
         finally
         {

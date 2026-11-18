@@ -58,14 +58,25 @@ namespace University_Explorer_Portal___76239.Services
         }
 
 
-        // PUT: Update an existing application
+        // PUT: Update an existing student application
         public async Task<bool> UpdateApplicationAsync(
             int id, StudentApplication application)
         {
             var response = await _httpClient
                 .PutAsJsonAsync($"{ApiUrl}/{id}", application);
 
-            return response.IsSuccessStatusCode;
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+
+            // Read error details if the API rejects the update
+            string errorDetails = await response.Content
+                .ReadAsStringAsync();
+
+            throw new HttpRequestException(
+                $"API Error: {(int)response.StatusCode} " +
+                $"{response.ReasonPhrase}. Details: {errorDetails}");
         }
     }
 }

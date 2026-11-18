@@ -23,8 +23,9 @@
     else
     {
         <select class="form-select"
-                @bind="selectedCountryName"
-                @bind:after="OnCountryChanged">
+            disabled="@isLoadingUniversities"
+            @bind="selectedCountryName"
+            @bind:after="OnCountryChanged">
 
             <option value="">-- Select Country --</option>
 
@@ -39,10 +40,17 @@
 </div>
 
 <!-- Error Handling -->
-@if (!string.IsNullOrEmpty(errorMessage))
+@if (!string.IsNullOrEmpty(countryError))
 {
     <div class="alert alert-danger">
-        @errorMessage
+        @countryError
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(universityError))
+{
+    <div class="alert alert-danger">
+        @universityError
     </div>
 }
 
@@ -66,7 +74,7 @@
     {
         <p>Loading universities...</p>
     }
-    else if (string.IsNullOrEmpty(errorMessage))
+    else if (string.IsNullOrEmpty(universityError))
     {
         <p>
             Universities found: @FilteredUniversities.Count()
@@ -109,7 +117,8 @@
 
     private string selectedCountryName = "";
     private string searchText = "";
-    private string errorMessage = "";
+    private string countryError = "";
+    private string universityError = "";
 
     private bool isLoadingCountries = true;
     private bool isLoadingUniversities = false;
@@ -117,53 +126,58 @@
     // Load countries when the page opens
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            countries = await CountryService.GetCountriesAsync();
+    isLoadingCountries = true;
+    countryError = "";
 
-            countries = countries
-                .OrderBy(c => c.Name)
-                .ToList();
-        }
-        catch (Exception)
-        {
-            errorMessage = "Unable to load countries.";
-        }
-        finally
-        {
-            isLoadingCountries = false;
-        }
+    try
+    {
+        countries = await CountryService.GetCountriesAsync();
+
+        countries = countries
+            .OrderBy(c => c.Name)
+            .ToList();
+    }
+    catch (Exception ex)
+    {
+        countryError = "Unable to load countries.";
+        Console.WriteLine(ex.Message);
+    }
+    finally
+    {
+        isLoadingCountries = false;
+    }
     }
 
     // Run when a country is selected
-    private async Task OnCountryChanged()
+   private async Task OnCountryChanged()
     {
-        selectedCountry = countries.FirstOrDefault(
-            c => c.Name == selectedCountryName);
+    selectedCountry = countries.FirstOrDefault(
+        c => c.Name == selectedCountryName);
 
-        selectedUniversity = null;
-        searchText = "";
-        universities.Clear();
-        errorMessage = "";
+    selectedUniversity = null;
+    searchText = "";
+    universities.Clear();
+    universityError = "";
 
-        if (selectedCountry == null)
-            return;
+    if (selectedCountry == null)
+        return;
 
-        isLoadingUniversities = true;
+    isLoadingUniversities = true;
 
-        try
-        {
-            universities = await UniversityService
-                .GetUniversitiesAsync(selectedCountry.Name);
-        }
-        catch (Exception)
-        {
-            errorMessage = "Unable to load universities.";
-        }
-        finally
-        {
-            isLoadingUniversities = false;
-        }
+    try
+    {
+        universities = await UniversityService
+            .GetUniversitiesAsync(selectedCountry.Name);
+    }
+    catch (Exception ex)
+    {
+        universityError = "Unable to load universities.";
+        Console.WriteLine(ex.Message);
+    }
+    finally
+    {
+        isLoadingUniversities = false;
+    }
     }
 
     // Filter universities while typing

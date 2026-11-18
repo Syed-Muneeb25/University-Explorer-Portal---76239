@@ -1,7 +1,83 @@
-﻿@page "/"
+﻿
+@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Home - University Explorer Portal</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="container mt-4">
 
-Welcome to the University Explorer Portal.
+    <div class="text-center mb-5">
+        <h1>University Explorer Portal</h1>
+
+        <p class="lead">
+            Explore universities around the world
+            and manage your university applications.
+        </p>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+
+                    <h4>University Explorer</h4>
+
+                    <p>
+                        Search universities by country,
+                        view country information and
+                        explore university details.
+                    </p>
+
+                    <a href="/university-explorer"
+                       class="btn btn-primary">
+                        Explore Universities
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+
+                    <h4>Student Applications</h4>
+
+                    <p>
+                        View submitted university
+                        applications and edit
+                        existing application details.
+                    </p>
+
+                    <a href="/student-applications"
+                       class="btn btn-primary">
+                        View Applications
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+
+                    <h4>Create Application</h4>
+
+                    <p>
+                        Submit a new university
+                        application using the
+                        student application form.
+                    </p>
+
+                    <a href="/student-applications/create"
+                       class="btn btn-primary">
+                        Create Application
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

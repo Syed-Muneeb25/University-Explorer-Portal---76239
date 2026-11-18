@@ -17,33 +17,27 @@
     Create New Application
 </a>
 
-<!-- Loading State -->
 @if (isLoading)
 {
     <p>Loading student applications...</p>
 }
-
-<!-- Error Handling -->
 else if (!string.IsNullOrEmpty(errorMessage))
 {
     <div class="alert alert-danger">
         @errorMessage
     </div>
 }
-
-<!-- No Applications -->
 else if (applications.Count == 0)
 {
     <div class="alert alert-info">
         No student applications found.
     </div>
 }
-
-<!-- Applications Table -->
 else
 {
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
+
             <thead class="table-dark">
                 <tr>
                     <th>Application ID</th>
@@ -68,7 +62,6 @@ else
                         <td>
                             @application.ApplicationDate?.ToString("dd/MM/yyyy")
                         </td>
-
                         <td>
                             <a class="btn btn-warning btn-sm"
                                href="@($"/student-applications/edit/{application.StudentApplicationId}")">
@@ -78,6 +71,7 @@ else
                     </tr>
                 }
             </tbody>
+
         </table>
     </div>
 }

@@ -1,6 +1,17 @@
 using University_Explorer_Portal___76239.Components;
+using University_Explorer_Portal___76239.Services;
+using UniversityExplorer.Components;
+using UniversityExplorer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Register HttpClient
+builder.Services.AddHttpClient();
+
+// Register API services
+builder.Services.AddScoped<CountryService>();
+builder.Services.AddScoped<UniversityService>();
+builder.Services.AddScoped<StudentApplicationService>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

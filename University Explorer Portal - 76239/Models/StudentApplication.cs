@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace University_Explorer_Portal___76239.Models
 {
     public class StudentApplication
     {
-        // Unique ID for each application
         public int StudentApplicationId { get; set; }
 
         [Required(ErrorMessage = "Student name is required.")]
@@ -18,10 +19,15 @@ namespace University_Explorer_Portal___76239.Models
         public string Country { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "University name is required.")]
+        [JsonPropertyName("University")]
         public string UniversityName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Course name is required.")]
+        [JsonPropertyName("Course")]
         public string CourseName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Personal statement is required.")]
+        public string PersonalStatement { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Application date is required.")]
         public DateTime? ApplicationDate { get; set; }

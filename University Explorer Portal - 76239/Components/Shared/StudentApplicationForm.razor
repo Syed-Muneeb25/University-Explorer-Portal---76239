@@ -1,0 +1,104 @@
+﻿
+@using University_Explorer_Portal___76239.Models
+@using Microsoft.AspNetCore.Components.Forms
+
+<EditForm Model="Application"
+          OnValidSubmit="SubmitApplication"
+          FormName="StudentApplicationForm">
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label class="form-label">Student Name</label>
+
+        <InputText class="form-control"
+                   @bind-Value="Application.StudentName" />
+
+        <ValidationMessage For="@(() => Application.StudentName)" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Email Address</label>
+
+        <InputText class="form-control"
+                   @bind-Value="Application.Email" />
+
+        <ValidationMessage For="@(() => Application.Email)" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Country</label>
+
+        <InputText class="form-control"
+                   @bind-Value="Application.Country" />
+
+        <ValidationMessage For="@(() => Application.Country)" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">University Name</label>
+
+        <InputText class="form-control"
+                   @bind-Value="Application.UniversityName" />
+
+        <ValidationMessage For="@(() => Application.UniversityName)" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Course Name</label>
+
+        <InputText class="form-control"
+                   @bind-Value="Application.CourseName" />
+
+        <ValidationMessage For="@(() => Application.CourseName)" />
+    </div>
+
+    <div class="mb-3">
+    <label class="form-label">Personal Statement</label>
+
+    <InputTextArea class="form-control"
+                   @bind-Value="Application.PersonalStatement"
+                   rows="5" />
+
+    <ValidationMessage
+        For="@(() => Application.PersonalStatement)" />
+</div>
+
+    <div class="mb-3">
+        <label class="form-label">Application Date</label>
+
+        <InputDate class="form-control"
+                   @bind-Value="Application.ApplicationDate" />
+
+        <ValidationMessage For="@(() => Application.ApplicationDate)" />
+    </div>
+
+    <button type="submit"
+            class="btn btn-primary"
+            disabled="@IsSubmitting">
+
+        @(IsSubmitting ? "Saving..." : ButtonText)
+
+    </button>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    public StudentApplication Application { get; set; } = new();
+
+    [Parameter]
+    public string ButtonText { get; set; } = "Submit Application";
+
+    [Parameter]
+    public bool IsSubmitting { get; set; }
+
+    [Parameter]
+    public EventCallback<StudentApplication> OnSubmit { get; set; }
+
+    private async Task SubmitApplication()
+    {
+        await OnSubmit.InvokeAsync(Application);
+    }
+}

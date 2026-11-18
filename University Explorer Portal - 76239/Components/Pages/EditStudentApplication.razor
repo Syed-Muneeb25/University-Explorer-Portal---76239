@@ -1,0 +1,106 @@
+﻿
+@page "/student-applications/edit/{id:int}"
+
+@using University_Explorer_Portal___76239.Models
+@using University_Explorer_Portal___76239.Services
+@using University_Explorer_Portal___76239.Components.Shared
+
+@inject StudentApplicationService StudentApplicationService
+@inject NavigationManager Navigation
+
+<PageTitle>Edit Student Application</PageTitle>
+
+<h1>Edit Student Application</h1>
+
+<p>Update the existing student application details.</p>
+
+@if (isLoading)
+{
+    <p>Loading application details...</p>
+}
+else if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+
+@if (!isLoading && application != null)
+{
+    <StudentApplicationForm
+        Application="application"
+        ButtonText="Update Application"
+        IsSubmitting="isSubmitting"
+        OnSubmit="UpdateApplication" />
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private StudentApplication? application;
+
+    private bool isLoading = true;
+    private bool isSubmitting = false;
+
+    private string errorMessage = "";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        application = null;
+        errorMessage = "";
+
+        try
+        {
+            application = await StudentApplicationService
+                .GetApplicationByIdAsync(id);
+
+            if (application == null)
+            {
+                errorMessage = "Application not found.";
+            }
+        }
+        catch (Exception)
+        {
+            errorMessage = "Unable to load application details.";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task UpdateApplication(
+        StudentApplication updatedApplication)
+    {
+        if (isSubmitting)
+            return;
+
+        isSubmitting = true;
+        errorMessage = "";
+
+        try
+        {
+            bool isSuccess = await StudentApplicationService
+                .UpdateApplicationAsync(id, updatedApplication);
+
+            if (isSuccess)
+            {
+                Navigation.NavigateTo("/student-applications");
+            }
+            else
+            {
+                errorMessage = "Unable to update application.";
+            }
+        }
+        catch (Exception)
+        {
+            errorMessage = "An error occurred while updating the application.";
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+}

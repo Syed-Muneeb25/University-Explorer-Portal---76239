@@ -1,0 +1,90 @@
+﻿
+@page "/student-applications/create"
+
+@using University_Explorer_Portal___76239.Models
+@using University_Explorer_Portal___76239.Services
+@using University_Explorer_Portal___76239.Components.Shared
+
+@inject StudentApplicationService StudentApplicationService
+
+<PageTitle>Create Student Application</PageTitle>
+
+<h1>Create Student Application</h1>
+
+<p>Fill in the form to submit a university application.</p>
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success">
+        @successMessage
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+
+<StudentApplicationForm
+    Application="application"
+    ButtonText="Submit Application"
+    IsSubmitting="isSubmitting"
+    OnSubmit="CreateApplication" />
+
+@code {
+    private StudentApplication application = new()
+    {
+        ApplicationDate = DateTime.Today
+    };
+
+    private string successMessage = "";
+    private string errorMessage = "";
+
+    private bool isSubmitting = false;
+
+    private async Task CreateApplication(StudentApplication submittedApplication)
+    {
+        if (isSubmitting)
+            return;
+
+        isSubmitting = true;
+
+        successMessage = "";
+        errorMessage = "";
+
+        try
+        {
+            bool isSuccess = await StudentApplicationService
+                .CreateApplicationAsync(submittedApplication);
+
+            if (isSuccess)
+            {
+                successMessage = "Application submitted successfully!";
+
+                application = new StudentApplication
+                    {
+                        ApplicationDate = DateTime.Today
+                    };
+            }
+            else
+            {
+                errorMessage = "Unable to submit application.";
+            }
+        }
+        catch (Exception ex)
+{
+    errorMessage = "Submission failed. Check the Output window.";
+
+    Console.WriteLine("Application submission error:");
+    Console.WriteLine(ex.Message);
+}    
+finally
+        {
+            isSubmitting = false;
+        }
+    }
+    }
+
+

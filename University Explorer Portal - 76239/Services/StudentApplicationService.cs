@@ -24,6 +24,17 @@ namespace University_Explorer_Portal___76239.Services
             return applications ?? new List<StudentApplication>();
         }
 
+
+        // GET: Retrieve one student application by ID
+        public async Task<StudentApplication?> GetApplicationByIdAsync(int id)
+        {
+            var applications = await GetApplicationsAsync();
+
+            return applications.FirstOrDefault(
+                a => a.StudentApplicationId == id);
+        }
+
+
         // POST: Create a new student application
         public async Task<bool> CreateApplicationAsync(
             StudentApplication application)
@@ -31,8 +42,21 @@ namespace University_Explorer_Portal___76239.Services
             var response = await _httpClient
                 .PostAsJsonAsync(ApiUrl, application);
 
-            return response.IsSuccessStatusCode;
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+
+
+            // Read the error message from the API
+            string errorDetails = await response.Content
+                .ReadAsStringAsync();
+
+            throw new HttpRequestException(
+                $"API Error: {(int)response.StatusCode} " +
+                $"{response.ReasonPhrase}. Details: {errorDetails}");
         }
+
 
         // PUT: Update an existing application
         public async Task<bool> UpdateApplicationAsync(

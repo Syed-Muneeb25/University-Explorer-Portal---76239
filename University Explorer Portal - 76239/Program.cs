@@ -1,7 +1,5 @@
 using University_Explorer_Portal___76239.Components;
 using University_Explorer_Portal___76239.Services;
-using UniversityExplorer.Components;
-using UniversityExplorer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

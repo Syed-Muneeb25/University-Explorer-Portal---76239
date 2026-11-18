@@ -1,0 +1,44 @@
+﻿@using University_Explorer_Portal___76239.Models
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h4 class="card-title">University Details</h4>
+
+        <p>
+            <strong>Name:</strong> @University.Name
+        </p>
+
+        <p>
+            <strong>Country:</strong> @University.Country
+        </p>
+
+        <p>
+            <strong>Website:</strong>
+
+            @if (University.WebPages.Count > 0)
+            {
+                <a href="@University.WebPages[0]"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    @University.WebPages[0]
+                </a>
+            }
+            else
+            {
+                <span>Not Available</span>
+            }
+        </p>
+
+        <p>
+            <strong>Domain:</strong>
+            @(University.Domains.Count > 0
+                ? University.Domains[0]
+                : "Not Available")
+        </p>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public University University { get; set; } = new();
+}

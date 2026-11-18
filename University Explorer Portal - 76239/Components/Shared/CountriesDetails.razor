@@ -1,0 +1,32 @@
+﻿@using University_Explorer_Portal___76239.Models
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h4 class="card-title">Country Details</h4>
+
+        @if (Country.Flags?.Png != null)
+        {
+            <img src="@Country.Flags.Png"
+                 alt="@Country.Name flag"
+                 width="100"
+                 class="mb-3" />
+        }
+        else if (!string.IsNullOrEmpty(Country.FlagEmoji))
+        {
+            <h2>@Country.FlagEmoji</h2>
+        }
+
+        <p><strong>Country:</strong> @Country.Name</p>
+        <p><strong>Capital:</strong> @Country.Capital</p>
+        <p><strong>Region:</strong> @Country.Region</p>
+        <p>
+            <strong>Population:</strong>
+            @Country.Population.ToString("N0")
+        </p>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Country Country { get; set; } = new();
+}

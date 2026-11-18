@@ -6,6 +6,7 @@ namespace University_Explorer_Portal___76239.Models
 {
     public class StudentApplication
     {
+        [JsonPropertyName("id")]
         public int StudentApplicationId { get; set; }
 
         [Required(ErrorMessage = "Student name is required.")]

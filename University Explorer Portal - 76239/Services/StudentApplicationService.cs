@@ -28,12 +28,16 @@ namespace University_Explorer_Portal___76239.Services
         // GET: Retrieve one student application by ID
         public async Task<StudentApplication?> GetApplicationByIdAsync(int id)
         {
+            if (id <= 0)
+            {
+                return null;
+            }
+
             var applications = await GetApplicationsAsync();
 
             return applications.FirstOrDefault(
                 a => a.StudentApplicationId == id);
         }
-
 
         // POST: Create a new student application
         public async Task<bool> CreateApplicationAsync(
@@ -62,6 +66,7 @@ namespace University_Explorer_Portal___76239.Services
         public async Task<bool> UpdateApplicationAsync(
             int id, StudentApplication application)
         {
+            application.StudentApplicationId = id;
             var response = await _httpClient
                 .PutAsJsonAsync($"{ApiUrl}/{id}", application);
 

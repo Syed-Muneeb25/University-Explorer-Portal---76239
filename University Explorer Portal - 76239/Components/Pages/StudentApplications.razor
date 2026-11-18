@@ -1,0 +1,108 @@
+﻿
+@page "/student-applications"
+
+@using University_Explorer_Portal___76239.Models
+@using University_Explorer_Portal___76239.Services
+
+@inject StudentApplicationService StudentApplicationService
+
+<PageTitle>Student Applications</PageTitle>
+
+<h1>Student Applications</h1>
+
+<p>View and manage submitted university applications.</p>
+
+<a href="/student-applications/create"
+   class="btn btn-primary mb-3">
+    Create New Application
+</a>
+
+<!-- Loading State -->
+@if (isLoading)
+{
+    <p>Loading student applications...</p>
+}
+
+<!-- Error Handling -->
+else if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+
+<!-- No Applications -->
+else if (applications.Count == 0)
+{
+    <div class="alert alert-info">
+        No student applications found.
+    </div>
+}
+
+<!-- Applications Table -->
+else
+{
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Application ID</th>
+                    <th>Student Name</th>
+                    <th>University Name</th>
+                    <th>Country</th>
+                    <th>Course Name</th>
+                    <th>Application Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var application in applications)
+                {
+                    <tr @key="application.StudentApplicationId">
+                        <td>@application.StudentApplicationId</td>
+                        <td>@application.StudentName</td>
+                        <td>@application.UniversityName</td>
+                        <td>@application.Country</td>
+                        <td>@application.CourseName</td>
+                        <td>
+                            @application.ApplicationDate?.ToString("dd/MM/yyyy")
+                        </td>
+
+                        <td>
+                            <a class="btn btn-warning btn-sm"
+                               href="@($"/student-applications/edit/{application.StudentApplicationId}")">
+                                Edit
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    private List<StudentApplication> applications = new();
+
+    private bool isLoading = true;
+
+    private string errorMessage = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            applications = await StudentApplicationService
+                .GetApplicationsAsync();
+        }
+        catch (Exception)
+        {
+            errorMessage = "Unable to load student applications.";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

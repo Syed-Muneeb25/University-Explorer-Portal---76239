@@ -1,11 +1,117 @@
-﻿@inherits LayoutComponentBase
+﻿
+@inherits LayoutComponentBase
+@inject IJSRuntime JS
 
-<div class="container mt-4">
+<div class="portal-shell" data-bs-theme="@theme">
 
-    <NavMenu />
+    <div class="portal-layout">
 
-    <main>
-        @Body
-    </main>
+        <!-- Sidebar -->
+        <aside class="portal-sidebar">
+
+            <div class="portal-brand">
+                <div class="portal-logo">UE</div>
+
+                <div>
+                    <strong>University Explorer</strong>
+                    <small>Student Portal</small>
+                </div>
+            </div>
+
+            <NavMenu />
+
+            <div class="portal-sidebar-footer">
+                University Explorer Portal
+                <br />
+                Powered by Blazor .NET 10
+            </div>
+
+        </aside>
+
+        <!-- Main workspace -->
+        <div class="portal-workspace">
+
+            <!-- Top Header -->
+            <header class="portal-topbar">
+
+                <div>
+                    <span class="portal-label">
+                        STUDENT DASHBOARD
+                    </span>
+
+                    <h5 class="mb-0">
+                        Welcome to University Explorer
+                    </h5>
+                </div>
+
+                <!-- Light/Dark Mode Button -->
+                <button type="button"
+                        class="btn btn-outline-secondary portal-theme-btn"
+                        @onclick="ToggleTheme">
+
+                    @if (theme == "light")
+                    {
+                        <span>🌙 Dark Mode</span>
+                    }
+                    else
+                    {
+                        <span>☀️ Light Mode</span>
+                    }
+
+                </button>
+
+            </header>
+
+            <!-- Page Content -->
+            <main class="portal-content">
+                @Body
+            </main>
+
+        </div>
+
+    </div>
 
 </div>
+
+@code {
+    private string theme = "light";
+
+    // Load the saved theme from browser storage
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        try
+        {
+            string? savedTheme = await JS.InvokeAsync<string?>(
+                "localStorage.getItem", "portal-theme");
+
+            if (savedTheme == "dark")
+            {
+                theme = "dark";
+                StateHasChanged();
+            }
+        }
+        catch (JSException)
+        {
+            // Use light theme if local storage is unavailable
+        }
+    }
+
+    // Switch between light and dark mode
+    private async Task ToggleTheme()
+    {
+        theme = theme == "light" ? "dark" : "light";
+
+        try
+        {
+            await JS.InvokeVoidAsync(
+                "localStorage.setItem", "portal-theme", theme);
+        }
+        catch (JSException)
+        {
+            // Theme still works without saving it
+        }
+    }
+}

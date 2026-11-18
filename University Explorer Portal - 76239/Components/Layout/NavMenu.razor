@@ -1,26 +1,29 @@
 ﻿
-<div class="bg-light border rounded p-3 mb-4">
+<nav class="portal-nav" aria-label="Main navigation">
 
-    <h4>University Explorer Portal</h4>
+    <NavLink class="portal-nav-link"
+             href="/"
+             Match="NavLinkMatch.All">
+        <span aria-hidden="true">🏠</span>
+        Home
+    </NavLink>
 
-    <nav class="nav flex-column">
+    <NavLink class="portal-nav-link"
+             href="/university-explorer">
+        <span aria-hidden="true">🌍</span>
+        University Explorer
+    </NavLink>
 
-        <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
-            Home
-        </NavLink>
+    <NavLink class="portal-nav-link"
+             href="/student-applications">
+        <span aria-hidden="true">📋</span>
+        Student Applications
+    </NavLink>
 
-        <NavLink class="nav-link" href="/university-explorer">
-            University Explorer
-        </NavLink>
+    <NavLink class="portal-nav-link"
+             href="/student-applications/create">
+        <span aria-hidden="true">📝</span>
+        Create Application
+    </NavLink>
 
-        <NavLink class="nav-link" href="/student-applications">
-            Student Applications
-        </NavLink>
-
-        <NavLink class="nav-link" href="/student-applications/create">
-            Create Student Application
-        </NavLink>
-
-    </nav>
-
-</div>
+</nav>

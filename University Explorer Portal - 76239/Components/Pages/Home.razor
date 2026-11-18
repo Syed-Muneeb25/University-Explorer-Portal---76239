@@ -3,81 +3,189 @@
 
 <PageTitle>Home - University Explorer Portal</PageTitle>
 
-<div class="container mt-4">
+<div class="portal-home">
 
-    <div class="text-center mb-5">
-        <h1>University Explorer Portal</h1>
+    <!-- Welcome Section -->
+    <section class="portal-hero">
 
-        <p class="lead">
-            Explore universities around the world
-            and manage your university applications.
+        <div class="portal-hero-content">
+
+            <span class="portal-hero-label">
+                WELCOME TO UNIVERSITY EXPLORER
+            </span>
+
+            <h1>
+                Your university journey
+                starts here.
+            </h1>
+
+            <p>
+                Discover universities around the world,
+                explore educational opportunities,
+                and manage your university applications
+                in one place.
+            </p>
+
+            <div class="d-flex flex-wrap gap-3 mt-4">
+
+                <a href="/university-explorer"
+                   class="btn btn-light btn-lg">
+                    Explore Universities
+                </a>
+
+                <a href="/student-applications/create"
+                   class="btn btn-outline-light btn-lg">
+                    Apply Now
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="portal-hero-image" aria-hidden="true">
+            <span>🌍</span>
+            <p>Discover Your Future</p>
+        </div>
+
+    </section>
+
+    <!-- Feature Cards -->
+    <section class="portal-section">
+
+        <div class="portal-section-heading">
+            <h2>What would you like to do?</h2>
+
+            <p>
+                Everything you need to explore universities
+                and manage your applications.
+            </p>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- University Explorer -->
+            <div class="col-lg-4 col-md-6">
+
+                <a href="/university-explorer"
+                   class="portal-feature-card">
+
+                    <div class="portal-feature-icon">
+                        🌍
+                    </div>
+
+                    <h3>Explore Universities</h3>
+
+                    <p>
+                        Select a country, discover universities,
+                        search by name and explore university
+                        details and official websites.
+                    </p>
+
+                    <span>Explore Universities →</span>
+
+                </a>
+
+            </div>
+
+            <!-- Student Applications -->
+            <div class="col-lg-4 col-md-6">
+
+                <a href="/student-applications"
+                   class="portal-feature-card">
+
+                    <div class="portal-feature-icon">
+                        📋
+                    </div>
+
+                    <h3>Student Applications</h3>
+
+                    <p>
+                        View your submitted applications,
+                        check application information
+                        and update existing records.
+                    </p>
+
+                    <span>View Applications →</span>
+
+                </a>
+
+            </div>
+
+            <!-- Create Application -->
+            <div class="col-lg-4 col-md-6">
+
+                <a href="/student-applications/create"
+                   class="portal-feature-card">
+
+                    <div class="portal-feature-icon">
+                        📝
+                    </div>
+
+                    <h3>Create Application</h3>
+
+                    <p>
+                        Apply to your preferred university
+                        using a simple application form
+                        with built-in validation.
+                    </p>
+
+                    <span>Create Application →</span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- How it works -->
+    <section class="portal-steps mt-5">
+
+        <h2>How It Works</h2>
+
+        <p class="portal-muted">
+            Three simple steps to manage your
+            university journey.
         </p>
-    </div>
 
-    <div class="row">
+        <div class="row g-4 mt-2">
 
-        <div class="col-md-4 mb-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
+            <div class="col-md-4">
+                <div class="portal-step-number">01</div>
 
-                    <h4>University Explorer</h4>
+                <h5>Explore</h5>
 
-                    <p>
-                        Search universities by country,
-                        view country information and
-                        explore university details.
-                    </p>
-
-                    <a href="/university-explorer"
-                       class="btn btn-primary">
-                        Explore Universities
-                    </a>
-
-                </div>
+                <p>
+                    Select a country and discover
+                    universities around the world.
+                </p>
             </div>
+
+            <div class="col-md-4">
+                <div class="portal-step-number">02</div>
+
+                <h5>Apply</h5>
+
+                <p>
+                    Complete and submit a university
+                    application using our form.
+                </p>
+            </div>
+
+            <div class="col-md-4">
+                <div class="portal-step-number">03</div>
+
+                <h5>Manage</h5>
+
+                <p>
+                    View and update your submitted
+                    applications when needed.
+                </p>
+            </div>
+
         </div>
 
-        <div class="col-md-4 mb-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
+    </section>
 
-                    <h4>Student Applications</h4>
-
-                    <p>
-                        View submitted university
-                        applications and edit
-                        existing application details.
-                    </p>
-
-                    <a href="/student-applications"
-                       class="btn btn-primary">
-                        View Applications
-                    </a>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-
-                    <h4>Create Application</h4>
-
-                    <p>
-                        Submit a new university
-                        application using the
-                        student application form.
-                    </p>
-
-                    <a href="/student-applications/create"
-                       class="btn btn-primary">
-                        Create Application
-                    </a>
-
-                </div>
-            </div>
-        </div>
-
-    </div>
 </div>

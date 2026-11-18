@@ -8,6 +8,8 @@
 @inject CountryService CountryService
 @inject UniversityService UniversityService
 
+<PageTitle>University Explorer</PageTitle>
+
 <h1>University Explorer</h1>
 
 <p>Explore universities around the world.</p>
@@ -23,9 +25,9 @@
     else
     {
         <select class="form-select"
-            disabled="@isLoadingUniversities"
-            @bind="selectedCountryName"
-            @bind:after="OnCountryChanged">
+                disabled="@isLoadingUniversities"
+                @bind="selectedCountryName"
+                @bind:after="OnCountryChanged">
 
             <option value="">-- Select Country --</option>
 
@@ -69,7 +71,7 @@
                placeholder="Search university..." />
     </div>
 
-    <!-- Loading -->
+    <!-- University Loading -->
     @if (isLoadingUniversities)
     {
         <p>Loading universities...</p>
@@ -100,12 +102,52 @@
             </div>
         }
     }
+}
 
-    <!-- University Details -->
-    @if (selectedUniversity != null)
-    {
-        <UniversityDetails University="selectedUniversity" />
-    }
+<!-- University Details Modal -->
+@if (selectedUniversity != null)
+{
+    <div class="modal fade show d-block"
+         tabindex="-1"
+         role="dialog"
+         aria-modal="true"
+         aria-label="University Details"
+         style="background-color: rgba(0,0,0,0.6);">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        @selectedUniversity.Name
+                    </h5>
+
+                    <button type="button"
+                            class="btn-close"
+                            aria-label="Close"
+                            @onclick="CloseUniversityDetails">
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <UniversityDetails
+                        University="selectedUniversity" />
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            @onclick="CloseUniversityDetails">
+                        Close
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 }
 
 @code {
@@ -117,79 +159,86 @@
 
     private string selectedCountryName = "";
     private string searchText = "";
+
     private string countryError = "";
     private string universityError = "";
 
     private bool isLoadingCountries = true;
     private bool isLoadingUniversities = false;
 
-    // Load countries when the page opens
+    // GET: Load countries
     protected override async Task OnInitializedAsync()
     {
-    isLoadingCountries = true;
-    countryError = "";
+        isLoadingCountries = true;
+        countryError = "";
 
-    try
+        try
+        {
+            countries = await CountryService.GetCountriesAsync();
+
+            countries = countries
+                .OrderBy(c => c.Name)
+                .ToList();
+        }
+        catch (Exception ex)
+        {
+            countryError = "Unable to load countries.";
+            Console.WriteLine(ex.Message);
+        }
+        finally
+        {
+            isLoadingCountries = false;
+        }
+    }
+
+    // GET: Load universities for selected country
+    private async Task OnCountryChanged()
     {
-        countries = await CountryService.GetCountriesAsync();
+        selectedCountry = countries.FirstOrDefault(
+            c => c.Name == selectedCountryName);
 
-        countries = countries
-            .OrderBy(c => c.Name)
-            .ToList();
-    }
-    catch (Exception ex)
-    {
-        countryError = "Unable to load countries.";
-        Console.WriteLine(ex.Message);
-    }
-    finally
-    {
-        isLoadingCountries = false;
-    }
-    }
+        selectedUniversity = null;
+        searchText = "";
+        universities.Clear();
+        universityError = "";
 
-    // Run when a country is selected
-   private async Task OnCountryChanged()
-    {
-    selectedCountry = countries.FirstOrDefault(
-        c => c.Name == selectedCountryName);
+        if (selectedCountry == null)
+            return;
 
-    selectedUniversity = null;
-    searchText = "";
-    universities.Clear();
-    universityError = "";
+        isLoadingUniversities = true;
 
-    if (selectedCountry == null)
-        return;
-
-    isLoadingUniversities = true;
-
-    try
-    {
-        universities = await UniversityService
-            .GetUniversitiesAsync(selectedCountry.Name);
-    }
-    catch (Exception ex)
-    {
-        universityError = "Unable to load universities.";
-        Console.WriteLine(ex.Message);
-    }
-    finally
-    {
-        isLoadingUniversities = false;
-    }
+        try
+        {
+            universities = await UniversityService
+                .GetUniversitiesAsync(selectedCountry.Name);
+        }
+        catch (Exception ex)
+        {
+            universityError = "Unable to load universities.";
+            Console.WriteLine(ex.Message);
+        }
+        finally
+        {
+            isLoadingUniversities = false;
+        }
     }
 
-    // Filter universities while typing
+    // Search universities while typing
     private IEnumerable<University> FilteredUniversities =>
         universities.Where(u =>
             u.Name.Contains(
                 searchText,
                 StringComparison.OrdinalIgnoreCase));
 
-    // Called by UniversityCard EventCallback
+    // Open university details modal
     private void SelectUniversity(University university)
     {
         selectedUniversity = university;
+    }
+
+    // Close university details modal
+    private void CloseUniversityDetails()
+    {
+        selectedUniversity = null;
     }
 }

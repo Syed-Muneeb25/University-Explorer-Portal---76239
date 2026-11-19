@@ -54,43 +54,46 @@ University Explorer Portal - 76239/
 ├── Models/           # Country, University, StudentApplication
 ├── Services/         # HTTP API services
 ├── wwwroot/          # Styles
+├── ScreenShots/      # Assignment screenshots
 └── Program.cs
-Screenshots/            # Assignment screenshots
 ```
 
 ## Screenshots
 
 ### Home dashboard
-![Home dashboard](Screenshots/home.png)
+![Home dashboard](University%20Explorer%20Portal%20-%2076239/ScreenShots/Home.png)
 
 ### University Explorer
-![University Explorer](Screenshots/university-explorer.png)
+![University Explorer](University%20Explorer%20Portal%20-%2076239/ScreenShots/Uni%20Explorer%20.png)
 
 ### Country details
-![Country details](Screenshots/country-details.png)
+![Country details](University%20Explorer%20Portal%20-%2076239/ScreenShots/Country%20Detail.png)
 
 ### Universities list
-![Universities list](Screenshots/universities-list.png)
+![Universities list](University%20Explorer%20Portal%20-%2076239/ScreenShots/Country%20Uni%20List.png)
 
 ### University search
-![University search](Screenshots/university-search.png)
+![University search](University%20Explorer%20Portal%20-%2076239/ScreenShots/uni%20Search%20Featuer.png)
+
+### University details
+![University details](University%20Explorer%20Portal%20-%2076239/ScreenShots/uni%20details.png)
 
 ### Student Applications — GET
-![Student Applications GET](Screenshots/student-applications-get.png)
+![Student Applications — GET](University%20Explorer%20Portal%20-%2076239/ScreenShots/Student%20Application%20GET.png)
 
 ### Create Student Application — POST
-![Create Application POST](Screenshots/create-application-post.png)
+![Create Student Application — POST](University%20Explorer%20Portal%20-%2076239/ScreenShots/Create%20Application%20POST.png)
 
 ### Edit Student Application — PUT
-![Edit Application PUT](Screenshots/edit-application-put.png)
+![Edit Student Application — PUT](University%20Explorer%20Portal%20-%2076239/ScreenShots/Edit%20Application%20PUT.png)
 
 ### Loading state
-![API loading state](Screenshots/loading-state.png)
+![Loading state](University%20Explorer%20Portal%20-%2076239/ScreenShots/Loading%20State%20.png)
 
 ### Error handling state
-![API error state](Screenshots/error-state.png)
+![Error handling state](University%20Explorer%20Portal%20-%2076239/ScreenShots/Error%20State.png)
 
-*The loading and error state screenshots demonstrate the UI while waiting for data and while handling a simulated API failure; the temporary testing code is not part of the normal application flow.*
+*Loading and error screenshots show the loading interface and a deliberately simulated API failure used to demonstrate error handling; temporary test code was removed from the normal application flow.*
 
 ## Notes
 
